@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', 'HomeController@index')->name('guest.home');
+Route::resource('/posts', 'PostController');
 
 Auth::routes();
 
