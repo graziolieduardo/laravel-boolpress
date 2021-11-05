@@ -23,7 +23,7 @@
                         <a href="{{ Route('admin.posts.edit', $post->id) }}">
                             <button class="btn btn-warning">Modify</button>
                         </a>
-                        <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST">
+                        <form action="{{ route('admin.posts.destroy', $post->id) }}" class="deleteForm" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
