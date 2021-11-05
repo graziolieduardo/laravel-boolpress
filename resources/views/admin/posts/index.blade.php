@@ -20,9 +20,9 @@
                         <a href="{{ Route('admin.posts.show', $post->slug) }}">
                             <button class="btn btn-primary">Details</button>
                         </a>
-                        {{-- <a href="{{ Route('admin.posts.edit', $post->slug) }}">
+                        <a href="{{ Route('admin.posts.edit', $post->id) }}">
                             <button class="btn btn-warning">Modify</button>
-                        </a> --}}
+                        </a>
                     </td>
                 </tr>
             @endforeach
