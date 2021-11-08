@@ -9,7 +9,12 @@
                     {{ $post->content }}
                 </p>
 
-                <small>{{ $post->author }}</small>
+                <small>Author: {{ $post->author }}</small><br>
+                @if ($post->category)
+                    <small>Category: {{ $post->category->name }}</small>    
+                @else
+                    <small>Category: ...</small>
+                @endif
             </div>
         </div>
     </div>
