@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
-use App\Post;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
@@ -38,7 +38,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $newCategory = new Category();
+        $newCategory->fill($data);
+
+        $slug = str::slug($newCategory->name);
+        $newCategory->slug = $slug;
+        $newCategory->save();
+
+        return redirect()->route('admin.categories.index')->with('added', 'New category added');
     }
 
     /**
@@ -78,11 +86,12 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('admin.categories.index')->with('deleted', 'Caterogy Deleted');
     }
 }
