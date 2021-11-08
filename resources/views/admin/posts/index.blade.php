@@ -1,6 +1,21 @@
 @extends('layouts.dashboard')
 
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+    @if (session('modified'))
+        <div class="alert alert-succes">
+            {{ session('modified') }}
+        </div>
+    @endif
+    @if (session('deleted'))
+        <div class="alert alert-danger">
+            {{ session('deleted') }}
+        </div>
+    @endif
     <table class="table">
         <thead>
             <tr>

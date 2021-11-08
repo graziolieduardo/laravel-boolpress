@@ -11,7 +11,11 @@
 
                 <small>Author: {{ $post->author }}</small><br>
                 @if ($post->category)
-                    <small>Category: {{ $post->category->name }}</small>    
+                    <small>Category: 
+                        <a href="{{ route('admin.categories.show', $post->category->id) }}">
+                            {{ $post->category->name }}
+                        </a>
+                    </small>   
                 @else
                     <small>Category: ...</small>
                 @endif
