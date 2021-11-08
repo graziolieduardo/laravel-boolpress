@@ -17,7 +17,7 @@
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->slug }}</td>
                     <td>
-                        <a href="">
+                        <a href="{{ route('admin.categories.show', $category->id) }}">
                             <button class="btn btn-primary">Details</button>
                         </a>
                         <a href="">
