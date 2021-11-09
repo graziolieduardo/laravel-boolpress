@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Str;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -29,7 +30,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -45,7 +47,8 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'author' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'tags' => 'exists:tags,id'
         ]);
 
         // data request 
@@ -56,6 +59,8 @@ class PostController extends Controller
         $slug = Str::slug($newPost->title);
         $newPost->slug = $slug;
         $newPost->save();
+
+        $newPost->tag()->attach($form_data['tags']);
 
         return redirect()->route('admin.posts.index')->with('status', 'Post Added');
     }
@@ -84,7 +89,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -100,12 +106,19 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'author' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'tags' => 'exists:tags,id'
         ]);
 
         // data request 
         $data = $request->all();
         $post->update($data);
+
+        if(array_key_exists('tags', $data)) {
+            $post->tag()->sync($data['tags']);
+        } else {
+            $post->tag()->sync([]);
+        }
 
         return redirect()->route('admin.posts.index')->with('modified', 'Post Modified Successfully');
     }
