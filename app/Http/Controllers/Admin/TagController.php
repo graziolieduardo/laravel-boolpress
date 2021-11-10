@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Tag;
 
 class TagController extends Controller
@@ -26,7 +27,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.tags.create');
     }
 
     /**
@@ -37,7 +38,19 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $form_data = $request->all();
+        $newTag = new Tag();
+        $newTag->fill($form_data);
+
+        $slug = Str::slug($form_data['name']);
+        $newTag->slug = $slug;
+        $newTag->save();
+
+        return redirect()->route('admin.tags.index')->with('added', 'Tag added successfully');
     }
 
     /**
@@ -77,11 +90,13 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+
+        return redirect()->route('admin.tags.index')->with('deleted', 'Tag Deleted');
     }
 }

@@ -30,7 +30,7 @@
                         <a href="{{ route('admin.tags.show', $tag->id) }}">
                             <button class="btn btn-primary">Details</button>
                         </a>
-                        <form action="" class="deleteForm" method="POST">
+                        <form action="{{ route('admin.tags.destroy', $tag->id) }}" class="deleteForm" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -40,7 +40,7 @@
             @endforeach
         </tbody>
     </table>
-    <a href="">
+    <a href="{{ route('admin.tags.create') }}">
         <div class="btn btn-primary">Add new Tag</div>
     </a>
 @endsection

@@ -38,6 +38,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required'
+        ]);
+
         $data = $request->all();
         $newCategory = new Category();
         $newCategory->fill($data);
